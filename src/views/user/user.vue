@@ -110,8 +110,6 @@
 					<el-button type="primary" @click="delUser">确 定</el-button>
 				</span>
 			</el-dialog>
-
-
 		</div>
 	</div>
 </template>
@@ -139,7 +137,7 @@
 					password: ''
 				},
 				dialogFormVisible: false,
-				page_size: 5,
+				page_size: 5, //每页显示数量
 				total: 0,
 				current_page: 1, //当前页
 				select: '',
