@@ -7,7 +7,7 @@ import home from '../views/home/home.vue'
 import article from '@/views/article/article'
 import lease from '@/views/lease/lease'
 import message from '@/views/message/message'
-
+import community_services from '@/views/community_services/community_services'
 Vue.use(VueRouter)
 
 const routes = [{
@@ -39,6 +39,10 @@ const routes = [{
 			path: '/message',
 			name: 'message',
 			component: message
+		}, {
+			path: '/community_services',
+			name: 'community_services',
+			component: community_services
 		}]
 	},
 	{

@@ -48,6 +48,7 @@
     name: "news",
     data() {
       return {
+        formLabelWidth: '120px',
         form: {
           title: '', //新闻标题
           imgUrl: '', //新闻图片地址

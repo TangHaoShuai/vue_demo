@@ -8,7 +8,7 @@
           <el-option label="发布人ID" value="1"></el-option>
           <el-option label="文章内容" value="2"></el-option>
         </el-select>
-        <el-button slot="append" icon="el-icon-search" @click="getNewsList"></el-button>
+        <el-button slot="append" icon="el-icon-search" @click="getArticleList"></el-button>
       </el-input>
     </el-row>
     <!-- 表格 -->
@@ -31,8 +31,6 @@
           </el-popover>
         </template>
       </el-table-column>
-
-
 
       <el-table-column prop="date" label="发布时间" width="100">
       </el-table-column>
@@ -59,6 +57,28 @@
       style="margin-top: 20px;" :current-page="current_page" :page-size="page_size" background
       layout="sizes, prev, pager, next" :total="total">
     </el-pagination>
+
+    <el-dialog title="修改数据" :visible.sync="up_article_dialog" :close-on-click-modal="false">
+      <el-form :model="form">
+        <el-form-item label="消息ID" :label-width="formLabelWidth">
+          <el-input v-model="form.uuid" :disabled="true" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="发布人ID" :label-width="formLabelWidth">
+          <el-input v-model="form.userid" autocomplete="off" :disabled="disabled"></el-input>
+        </el-form-item>
+        <el-form-item label="发布时间" :label-width="formLabelWidth">
+          <el-input v-model="form.date" autocomplete="off" :disabled="disabled"></el-input>
+        </el-form-item>
+        <el-form-item label="文章内容" :label-width="formLabelWidth">
+          <el-input v-model="form.content" autocomplete="off" :disabled="disabled"></el-input>
+        </el-form-item>
+        <el-form-item label="阅读人数" :label-width="formLabelWidth">
+          <el-input v-model="form.readCount" autocomplete="off" :disabled="disabled"></el-input>
+        </el-form-item>
+
+      </el-form>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -69,12 +89,21 @@
     name: "article",
     data() {
       return {
+        up_article_dialog: false, //修改帖子对话框
         form: {
-          title: '', //新闻标题
-          imgUrl: '', //新闻图片地址
-          newTime: '', //时间
-          url: '', //内容地址
+          uuid: '', //文章ID
+          userid: '', //发布人ID
+          date: '', //发布时间
+          content: '', //文章内容
+          readCount: '', //阅读人数
+          commentCount: '', //评论人数
+          praiseCount: '', //点赞人数
+          imgid: '', //图片ID 根据这个ID 可以检索出这个帖子所有的图片
+          imgLists: [], //帖子图片集合
+          praiseList: [], //点赞集合
+          user: [], //用户集合
         },
+        formLabelWidth: '120px',
         inputValue: '', //搜索框值
         page_sizes: [5, 10, 15, 20, 30],
         page_size: 5, //每页显示数量
@@ -85,39 +114,41 @@
       };
     },
     mounted() {
-      this.getNewsList()
+      this.getArticleList()
     },
     methods: { //pageSize 改变时会触发
       size_change(pageSize) {
         this.page_size = pageSize
-        this.getNewsList();
+        this.getArticleList();
       },
       //currentPage 改变时会触发
       current_change(currentPage) {
         this.current_page = currentPage
-        this.getNewsList();
+        this.getArticleList();
       },
-      getNewsList() {
-        var tmp = this.select == '1' ? {
-          "current": this.current_page,
-          "size": this.page_size,
-          "userid": this.inputValue
+      getArticleList() {
+        let mzz = this
+        var tmp = mzz.select == '1' ? {
+          "current": mzz.current_page,
+          "size": mzz.page_size,
+          "userid": mzz.inputValue
         } : {
-          "current": this.current_page,
-          "size": this.page_size,
-          "content": this.inputValue
+          "current": mzz.current_page,
+          "size": mzz.page_size,
+          "content": mzz.inputValue
         }
-        this.$axios('article/getList', tmp, 'POST').then(data => {
-          this.tableData = data.list
-          this.current_page = data.current
-          this.total = data.total
+        mzz.$axios('article/getList', tmp, 'POST').then(data => {
+          mzz.tableData = data.list
+          mzz.current_page = data.current
+          mzz.total = data.total
         }).catch(err => {
           console.log(err)
         })
       },
       //表单工具栏监听
-      handleClick() {
-
+      handleClick(row) {
+        this.form = JSON.parse(JSON.stringify(row))
+        this.up_article_dialog = true
       }
     },
   };

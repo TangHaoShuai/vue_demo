@@ -80,8 +80,8 @@
             <el-input v-model="form.province" autocomplete="off"></el-input>
           </el-form-item> -->
           <el-upload :auto-upload="false" :limit="1" class="upload-demo" ref="upload" :on-success="upFile"
-            :on-change="fileChange" action="http://192.168.31.68:8088/shareImgUpload" name="file" :data="data"
-            :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" list-type="picture">
+            :on-change="fileChange" action="up_share" name="file" :data="data" :on-preview="handlePreview"
+            :on-remove="handleRemove" :file-list="fileList" list-type="picture">
             <el-button size="medium" type="primary">点击上传物品的图片</el-button>
             <!-- <div slot="tip" class="el-upload__tip">只能上传一张</div> -->
           </el-upload>
@@ -116,8 +116,8 @@
             <el-input v-model="form.enddate" autocomplete="off" :disabled="disabled"></el-input>
           </el-form-item>
           <el-upload :auto-upload="false" :limit="1" class="upload-demo" ref="upload" :on-success="upFile"
-            :on-change="fileChange" action="http://192.168.31.68:8088/shareImgUpload" name="file" :data="data"
-            :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" list-type="picture">
+            :on-change="fileChange" :action="up_share" name="file" :data="data" :on-preview="handlePreview"
+            :on-remove="handleRemove" :file-list="fileList" list-type="picture">
             <el-button size="medium" type="primary" :disabled="disabled">点击上传物品的图片</el-button>
           </el-upload>
         </el-form>
@@ -137,10 +137,11 @@
     name: "lease",
     data() {
       return {
+        up_share: this.$up_share, // 共享图片上传路径
         tmp_del_share: {},
         disabled: false,
-        qrurl: "http://192.168.31.68:8088/image/Share/ShareCR/",
-        url: "http://192.168.31.68:8088/image/Share/",
+        qrurl: this.$qrurl,
+        url: this.$sharePath,
         formLabelWidth: '120px',
         tableData: [],
         select: '',
@@ -235,10 +236,11 @@
         this.form = JSON.parse(JSON.stringify(row))
         this.up_share_dialog = true
         this.disabled = disabled
+        let shaerPath = this.$sharePath
         if (row.img && row.name) {
           this.fileList = [{
             name: row.name,
-            url: 'http://192.168.31.68:8088/image/Share/' + row.img
+            url: shaerPath + row.img
           }]
         } else {
           this.fileList = []

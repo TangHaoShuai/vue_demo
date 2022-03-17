@@ -19,7 +19,7 @@
 			</el-table-column>
 			<el-table-column prop="username" label="用户名" width="200">
 			</el-table-column>
-			<el-table-column prop="province" label="地址" width="300">
+			<el-table-column prop="house" label="小区" width="300">
 			</el-table-column>
 			<el-table-column prop="uDescribe" label="个性签名" width="600">
 			</el-table-column>
@@ -50,8 +50,8 @@
 					<el-form-item label="用户名" :label-width="formLabelWidth">
 						<el-input v-model="form.username" autocomplete="off" :disabled="disabled"></el-input>
 					</el-form-item>
-					<el-form-item label="地址" :label-width="formLabelWidth">
-						<el-input v-model="form.province" autocomplete="off" :disabled="disabled"></el-input>
+					<el-form-item label="小区" :label-width="formLabelWidth">
+						<el-input v-model="form.house" autocomplete="off" :disabled="disabled"></el-input>
 					</el-form-item>
 					<el-form-item label="个性签名" :label-width="formLabelWidth">
 						<el-input v-model="form.uDescribe" autocomplete="off" :disabled="disabled"></el-input>
@@ -79,8 +79,8 @@
 					<el-form-item label="用户名" :label-width="formLabelWidth">
 						<el-input v-model="form.username" autocomplete="off"></el-input>
 					</el-form-item>
-					<el-form-item label="地址" :label-width="formLabelWidth">
-						<el-input v-model="form.province" autocomplete="off"></el-input>
+					<el-form-item label="小区" :label-width="formLabelWidth">
+						<el-input v-model="form.house" autocomplete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="个性签名" :label-width="formLabelWidth">
 						<el-input v-model="form.uDescribe" autocomplete="off"></el-input>
@@ -134,7 +134,8 @@
 					sex: '',
 					uDescribe: '',
 					username: '',
-					password: ''
+					password: '',
+					house: ''
 				},
 				dialogFormVisible: false,
 				page_size: 5, //每页显示数量

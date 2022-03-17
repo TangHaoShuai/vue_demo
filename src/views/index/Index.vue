@@ -44,6 +44,12 @@
           <i class="el-icon-menu"></i>
           <span slot="title">租聘管理</span>
         </el-menu-item>
+
+        <el-menu-item index="/community_services">
+          <i class="el-icon-menu"></i>
+          <span slot="title">社区服务</span>
+        </el-menu-item>
+
       </el-menu>
     </el-aside>
 
