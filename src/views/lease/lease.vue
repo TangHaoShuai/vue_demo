@@ -115,11 +115,13 @@
           <el-form-item label="截至时间" :label-width="formLabelWidth">
             <el-input v-model="form.enddate" autocomplete="off" :disabled="disabled"></el-input>
           </el-form-item>
+
           <el-upload :auto-upload="false" :limit="1" class="upload-demo" ref="upload" :on-success="upFile"
             :on-change="fileChange" :action="up_share" name="file" :data="data" :on-preview="handlePreview"
             :on-remove="handleRemove" :file-list="fileList" list-type="picture">
             <el-button size="medium" type="primary" :disabled="disabled">点击上传物品的图片</el-button>
           </el-upload>
+
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="up_share_dialog = false">取 消</el-button>
