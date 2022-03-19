@@ -68,7 +68,7 @@
           <span style="padding-left: 10px">唐好帅</span>
           <!-- <i class="el-icon-user-solid" style="margin-right: 15px"></i> -->
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>退出登录</el-dropdown-item>
+            <el-dropdown-item @click.native="exit">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -109,6 +109,13 @@
       };
     },
     methods: {
+      //退出登录
+      exit() {
+        this.$message.success('退出账户！！！！！');
+        this.$router.push({
+          path: '/'
+        })
+      },
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
       },
