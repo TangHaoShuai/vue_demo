@@ -1,7 +1,7 @@
 <template>
   <div style="font-size:small;">
     <!-- 搜索 -->
-    <el-row style="float: left;">
+    <el-row style="float: left;margin-bottom: 10px;">
       <el-input :clearable="true" placeholder="请输入内容" v-model="inputValue" class="input-with-select"
         style="width: 600px;">
         <el-select v-model="select" slot="prepend" placeholder="请选择" style="width: 100px;">
@@ -25,13 +25,23 @@
 
       <el-table-column label="操作" width="180">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row,true)" type="text" size="small">查看</el-button>
-          <el-button @click="handleClick(scope.row,false)" type="text" size="small">编辑</el-button>
-          <el-button @click="showDelDialog(scope.row)" type="text" size="small">删除</el-button>
+          <!-- <el-button @click="handleClick(scope.row,true)" type="text" size="small">查看</el-button>
+          <el-button @click="handleClick(scope.row,false)" type="text" size="small">编辑</el-button> -->
+          <el-button @click="btn_delete(scope.row)" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
-
     </el-table>
+    <!-- 删除对话框 -->
+    <div>
+      <el-dialog title="警告" :visible.sync="del_news_dialog" width="30%">
+        <span>是否确定删除</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="del_news_dialog = false">取 消</el-button>
+          <el-button type="primary" @click="delNews">确 定</el-button>
+        </span>
+      </el-dialog>
+    </div>
+
     <!-- 分页 -->
     <el-pagination @current-change="current_change" @size-change="size_change" :page-sizes="page_sizes"
       style="margin-top: 20px;" :current-page="current_page" :page-size="page_size" background
@@ -48,6 +58,8 @@
     name: "news",
     data() {
       return {
+        news: '',
+        del_news_dialog: false, //删除的对话框
         formLabelWidth: '120px',
         form: {
           title: '', //新闻标题
@@ -68,6 +80,28 @@
       this.getNewsList()
     },
     methods: {
+      btn_delete(row) {
+        this.news = JSON.parse(JSON.stringify(row))
+        this.del_news_dialog = true
+      },
+      // 删除新闻
+      delNews() {
+        this.$axios('news/deleteNews', this.news, 'POST').then(data => {
+          if (data) {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            });
+            this.getNewsList()
+            this.del_news_dialog = false
+          }
+          if (!data) {
+            this.$message.error('删除失败！！！！！');
+          }
+        }).catch(err => {
+          this.$message.error('删除错误！！！！！' + err);
+        })
+      },
       //pageSize 改变时会触发
       size_change(pageSize) {
         this.page_size = pageSize

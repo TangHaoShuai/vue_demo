@@ -1,7 +1,7 @@
 <template>
     <div style="font-size:small;">
         <!-- 搜索 -->
-        <el-row style="float: left;margin-bottom: 20px;">
+        <el-row style="float: left;margin-bottom: 10px;">
             <el-input :clearable="true" placeholder="请输入内容" v-model="inputValue" class="input-with-select"
                 style="width: 600px;">
                 <el-select v-model="select" slot="prepend" placeholder="请选择" style="width: 100px;">

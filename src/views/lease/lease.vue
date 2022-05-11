@@ -11,7 +11,7 @@
       </el-input>
     </el-row>
     <el-row style="float: right;margin-bottom: 10px;">
-      <el-button type="primary" @click="add_share_dialog = true">添加物品</el-button>
+      <el-button type="primary" @click="bnt_add_share_dialog()">添加物品</el-button>
     </el-row>
     <!-- 表格 -->
     <el-table :data="tableData" border style="width: 100%;text-align: center;">
@@ -80,7 +80,7 @@
             <el-input v-model="form.province" autocomplete="off"></el-input>
           </el-form-item> -->
           <el-upload :auto-upload="false" :limit="1" class="upload-demo" ref="upload" :on-success="upFile"
-            :on-change="fileChange" action="up_share" name="file" :data="data" :on-preview="handlePreview"
+            :on-change="fileChange" :action="up_share" name="file" :data="data" :on-preview="handlePreview"
             :on-remove="handleRemove" :file-list="fileList" list-type="picture">
             <el-button size="medium" type="primary">点击上传物品的图片</el-button>
             <!-- <div slot="tip" class="el-upload__tip">只能上传一张</div> -->
@@ -88,7 +88,7 @@
         </el-form>
 
         <div slot="footer" class="dialog-footer">
-          <el-button @click="add_user_dialog = false">取 消</el-button>
+          <el-button @click="add_share_dialog = false">取 消</el-button>
           <el-button type="primary" @click="addShare">确 定</el-button>
         </div>
       </el-dialog>
@@ -172,18 +172,26 @@
         fileList: []
       };
     },
-    onShow() {},
+    onShow() {
+
+    },
     onLoad() {},
     mounted() {
       this.getShareList()
     },
     methods: {
+      bnt_add_share_dialog() {
+        let mzz = this
+        mzz.fileList = []
+        mzz.form = {}
+        mzz.data = {}
+        mzz.add_share_dialog = true
+      },
       showDelDialog(row) {
         this.del_share_dialog = true
         this.tmp_del_share = JSON.parse(JSON.stringify(row))
       },
       delShare() {
-
         this.$axios('share/deleteShare', this.tmp_del_share, 'POST').then(data => {
           if (data) {
             this.$message({
@@ -295,28 +303,29 @@
       },
       // 添加共享物品
       addShare() {
-        if (this.form.name == '' || this.form.description == '') {
-          this.$message.error('名字和描述不能为空！！！！！');
+        let mzz = this
+        if (mzz.form.name == '' || mzz.form.description == '') {
+          mzz.$message.error('名字和描述不能为空！！！！！');
         } else {
-          this.$axios('share/addShare', this.form, 'POST').then(res => {
+          mzz.$axios('share/addShare', mzz.form, 'POST').then(res => {
             if (res.state == 'succeed') {
-              if (this.fileList.length > 0) {
-                this.data.shareId = res.message
-                this.data.imgId = ''
-                this.$refs.upload.submit() //提交图片上传
+              if (mzz.fileList.length > 0) {
+                mzz.data.shareId = res.message
+                mzz.data.imgId = ''
+                mzz.$refs.upload.submit() //提交图片上传
               } else {
-                this.$message({
+                mzz.$message({
                   message: '添加成功',
                   type: 'success'
                 });
-                this.getShareList()
-                this.add_share_dialog = false
+                mzz.getShareList()
+                mzz.add_share_dialog = false
               }
             } else {
-              this.$message.error('修改失败！！！！！');
+              mzz.$message.error('修改失败！！！！！');
             }
           }).catch(err => {
-            this.$message.error('系统错误！！！！！' + err);
+            mzz.$message.error('系统错误！！！！！' + err);
           })
         }
       },

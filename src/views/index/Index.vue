@@ -42,7 +42,7 @@
 
         <el-menu-item index="/lease">
           <i class="el-icon-menu"></i>
-          <span slot="title">租聘管理</span>
+          <span slot="title">社区共享</span>
         </el-menu-item>
 
         <el-menu-item index="/community_services">
@@ -65,7 +65,7 @@
           <div style="padding-top: 8px; float: left">
             <el-avatar size="small" :src="circleUrl"></el-avatar>
           </div>
-          <span style="padding-left: 10px">唐好帅</span>
+          <span style="padding-left: 10px">管理员</span>
           <!-- <i class="el-icon-user-solid" style="margin-right: 15px"></i> -->
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="exit">退出登录</el-dropdown-item>
@@ -127,6 +127,7 @@
       },
     },
     created() {
+      document.title = '智慧社区后台'
       let h = document.documentElement.clientHeight || document.body.clientHeight;
       this.vdaH = h + 'px';
       this.vdaB = h - 62 + 'px';

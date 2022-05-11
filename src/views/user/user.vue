@@ -11,7 +11,7 @@
 			</el-input>
 		</el-row>
 		<el-row style="float: right;margin-bottom: 10px;">
-			<el-button type="primary" @click="add_user_dialog = true">添加用户</el-button>
+			<el-button type="primary" @click="btn_add_user_dialog()">添加用户</el-button>
 		</el-row>
 		<!-- 表格 -->
 		<el-table :data="tableData" border style="width: 100%;text-align: center;">
@@ -152,6 +152,10 @@
 			this.getUserList()
 		},
 		methods: {
+			btn_add_user_dialog() {
+				this.form = {}
+				this.add_user_dialog = true
+			},
 			//pageSize 改变时会触发
 			size_change(pageSize) {
 				this.page_size = pageSize
@@ -235,15 +239,14 @@
 			addUser() {
 				if (this.form.name != '' && this.form.phone != '' && this.form.password != '') {
 					this.$axios('user/addUser', this.form, 'POST').then(data => {
-						if (data == '200') {
+						if (data) {
 							this.$message({
 								message: '添加成功',
 								type: 'success'
 							});
 							this.getUserList()
 							this.add_user_dialog = false;
-						}
-						if (data == '500') {
+						} else {
 							this.$message.error('添加失败！！！！！');
 						}
 					}).catch(err => {

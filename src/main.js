@@ -7,7 +7,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import axios from '@/apis/http.js'
 Vue.prototype.$axios = axios
 
-let myip = '192.168.31.68'
+let myip = '192.168.240.238'
 // 文章图片上传路径(服务器路由地址)
 Vue.prototype.$up_article = 'http://' + myip + ':8088/imgFileUpload'
 // 共享服务图片上传路径(服务器路由地址)

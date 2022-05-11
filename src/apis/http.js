@@ -1,5 +1,5 @@
 import axios from 'axios' //引入组件
-const baseUrl = 'http://192.168.31.68:8088/'
+const baseUrl = 'http://192.168.240.238:8088/'
 const request = (url = '', data = {}, type = '') => {
     return new Promise((resolve, reject) => {
         axios({
